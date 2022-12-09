@@ -2,7 +2,7 @@
 //CS 4280
 //P0
 
-#include node.h
+#include "node.h"
 
 struct node *new_node(int x) {
   	struct node *val = (struct node *)calloc(1,sizeof(struct node));
