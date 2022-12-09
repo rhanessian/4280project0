@@ -99,8 +99,10 @@ void printPostorder( struct node *root, int level, FILE* outfile)
 		printPostorder(root->p_left, level+1, outfile);
 		printPostorder(root->p_right, level+1, outfile);
 		fprintf(outfile, "%d\n", root->len);
-		for (int i = 0; i < root->num; i++){
-			for(int j=0; j<level; j++){
+		int i;
+		for (i = 0; i < root->num; i++){
+			int j;
+			for(j=0; j<level; j++){
 				fprintf(outfile, "  ");
 			}
 			fprintf(outfile, "%s\n", root->value[i]);	
@@ -112,8 +114,10 @@ void printPreorder(struct node *root, int level, FILE* outfile)
 {
 	if( root != NULL) {
 		fprintf(outfile, "%d\n", root->len);
-		for (int i = 0; i < root->num; i++){
-			for(int j=0; j<level; j++){
+		int i;
+		for (i = 0; i < root->num; i++){
+			int j;
+			for(j=0; j<level; j++){
 				fprintf(outfile, "  ");
 			}
 			fprintf(outfile, "%s\n", root->value[i]);	
@@ -128,8 +132,10 @@ void printInorder(struct node *root, int level, FILE* outfile)
     if( root != NULL ) {
         printInorder(root->p_left, level+1, outfile);
         fprintf(outfile, "%d\n", root->len);
-        for (int i = 0; i < root->num; i++){
-        	for(int j=0; j<level; j++){
+        int i;
+        for (i = 0; i < root->num; i++){
+        	int j;
+        	for(j=0; j<level; j++){
 				fprintf(outfile, "  ");
 			}
 			fprintf(outfile, "%s\n", root->value[i]);	
