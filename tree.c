@@ -162,8 +162,9 @@ int main (int argc, const char *argv[]){
     }
     else 
     {
-    	const char* filename = argv[1];
-        FILE *file = fopen( filename, "r" );
+    	char tempstring[128];
+	sprintf(tempstring, "%s.cs4280", argv[1]);
+        FILE *file = fopen( tempstring, "r" );
 
         if ( file == 0 )
         {
