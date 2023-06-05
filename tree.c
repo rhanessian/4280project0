@@ -3,6 +3,7 @@
 //P0
 
 #include "node.h"
+#include <ctype.h>
 
 struct node *new_node(int x) {
   	struct node *val = (struct node *)calloc(1,sizeof(struct node));
@@ -11,6 +12,18 @@ struct node *new_node(int x) {
   	val->p_left = val->p_right = NULL;
   	val->num = 0;
   	return val;
+}
+
+int findLastDigit(char* number){
+	int digit = -1;
+	while(*number &&*number != '\n')
+	{
+		if(! isdigit(*number))
+			return -1;
+		digit = *number - '0';
+		number++;
+	}
+	return digit;
 }
 
 void insert(int key, struct node **leaf)
@@ -66,24 +79,24 @@ struct node* buildTree(char** inputArray, int length){
 	int i;
 	struct node* tree = NULL;
 	for(i = 0; i < length; i++){
-		int len = (int)strlen(inputArray[i]);
+		int lastDigit = (int)findLastDigit(inputArray[i]);
 		struct node* finding = NULL;
 		if (!tree) {
-			tree = finding = new_node(len);
+			tree = finding = new_node(lastDigit);
 			printf("created tree at %p\n", tree);
 		} else {
-			finding = search(tree, len);
+			finding = search(tree, lastDigit);
 			if (finding == NULL) {
-				insert(len, &tree);
-				finding = search(tree, len);
+				insert(lastDigit, &tree);
+				finding = search(tree, lastDigit);
 				//finding = insert(tree, len);
-				printf("inserted new node %p (tree=%p) for length %d\n", finding, tree, len);
+				printf("inserted new node %p (tree=%p) for length %d\n", finding, tree, lastDigit);
 			} else {
-				printf("found node %p for length %d\n", finding, len);
+				printf("found node %p for length %d\n", finding, lastDigit);
 			}
 		}
 		finding->value[finding->num++] = strdup(inputArray[i]);
-		printf("adding word %s length %d at %p, tree=%p\n", inputArray[i], len, finding, tree);
+		printf("adding word %s length %d at %p, tree=%p\n", inputArray[i], lastDigit, finding, tree);
 		if(tree==NULL) {
 			printf("setting tree to %p\n", finding);
 			tree = finding;
@@ -157,7 +170,7 @@ int main (int argc, const char *argv[]){
     }
     else if (argc == 1){
     	//read from keyboard
-    	printf("Begin inputting strings (end with empty string):");
+    	printf("Begin inputting numbers (end with empty string):");
     	input = stdin;
     }
     else 
@@ -175,14 +188,14 @@ int main (int argc, const char *argv[]){
     }
 	size_t malloc_size = 500;
 	for (i = 0; i < NUM_STRINGS; i++) {
-		word[i] = malloc(malloc_size * sizeof(char)); 
+		word[i] = calloc(malloc_size , sizeof(char)); 
 		fgets(word[i], malloc_size, input); 
 		if (word[i][0] == '\n' || word[i][0] == 0)
 			break;
-		int len = strlen(word[i]);
-		if (len == 0)
+		int lastDigit = findLastDigit(word[i]);
+		if (lastDigit == -1)
 			break;
-		word[i][len-1] = 0;
+		//word[i][len-1] = 0;
 		counter++;
 	}
 	
