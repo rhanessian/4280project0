@@ -32,7 +32,6 @@ void insert(int key, struct node **leaf)
     {
         *leaf = (struct node*) calloc(1,  sizeof( struct node ) );
         (*leaf)->len = key;
-        /* initialize the children to null */
         (*leaf)->p_left = 0;    
         (*leaf)->p_right = 0;  
     }
@@ -45,24 +44,7 @@ void insert(int key, struct node **leaf)
         insert( key, &(*leaf)->p_right );
     }
 }
-/*
-struct node* insert(struct node *root, int x)
-{
-	if (root == NULL) { 
-		printf("insert: root=%p, inserting new node for %d\n", root, x);
-		struct node *newval = new_node(x);
-		printf("new node = %p\n", newval);
-		return newval;
-	}
 
-  	if (x < root->len)
-    	root->p_left = insert(root->p_left, x);
-  	else if (x > root->len)
-    	root->p_right = insert(root->p_right, x);
-	printf("insert: returning %p\n", root);
-  	return NULL;//root;
-}
-*/
 struct node* search(struct node *root, int x)
 {
     if(root==NULL || root->len==x) {
@@ -89,14 +71,13 @@ struct node* buildTree(char** inputArray, int length){
 			if (finding == NULL) {
 				insert(lastDigit, &tree);
 				finding = search(tree, lastDigit);
-				//finding = insert(tree, len);
-				printf("inserted new node %p (tree=%p) for length %d\n", finding, tree, lastDigit);
+				printf("inserted new node %p (tree=%p) for last digit %d\n", finding, tree, lastDigit);
 			} else {
-				printf("found node %p for length %d\n", finding, lastDigit);
+				printf("found node %p for last digit %d\n", finding, lastDigit);
 			}
 		}
 		finding->value[finding->num++] = strdup(inputArray[i]);
-		printf("adding word %s length %d at %p, tree=%p\n", inputArray[i], lastDigit, finding, tree);
+		printf("adding number %s with last digit %d at %p, tree=%p\n", inputArray[i], lastDigit, finding, tree);
 		if(tree==NULL) {
 			printf("setting tree to %p\n", finding);
 			tree = finding;
@@ -161,15 +142,13 @@ int main (int argc, const char *argv[]){
 	int counter = 0;
 	FILE *input;
 	int i;
-    char *word[NUM_STRINGS];
+    char *numbers[NUM_STRINGS];
 	if ( argc > 2 ) 
     {
-        /* We print argv[0] assuming it is the program name */
         printf( "usage: %s filename", argv[0] );
         return -1;
     }
     else if (argc == 1){
-    	//read from keyboard
     	printf("Begin inputting numbers (end with empty string):");
     	input = stdin;
     }
@@ -189,17 +168,16 @@ int main (int argc, const char *argv[]){
 	size_t malloc_size = 500;
 	for (i = 0; i < NUM_STRINGS; i++) {
 		word[i] = calloc(malloc_size , sizeof(char)); 
-		fgets(word[i], malloc_size, input); 
-		if (word[i][0] == '\n' || word[i][0] == 0)
+		fgets(numbers[i], malloc_size, input); 
+		if (numbers[i][0] == '\n' || numbers[i][0] == 0)
 			break;
-		int lastDigit = findLastDigit(word[i]);
+		int lastDigit = findLastDigit(numbers[i]);
 		if (lastDigit == -1)
 			break;
-		//word[i][len-1] = 0;
 		counter++;
 	}
 	
-	struct node* tree = buildTree(word, counter);
+	struct node* tree = buildTree(numbers, counter);
 	FILE* pre = fopen("outP0.preorder","w");
 	FILE* inord = fopen("outP0.inorder","w");
 	FILE* post = fopen("outP0.postorder","w");
@@ -215,7 +193,7 @@ int main (int argc, const char *argv[]){
 	
 	
 	
-	word[i] = NULL;
+	numbers[i] = NULL;
 	if (input != stdin)
 		fclose(input);
 	return 0;
