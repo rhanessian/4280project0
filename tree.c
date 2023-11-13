@@ -167,7 +167,7 @@ int main (int argc, const char *argv[]){
     }
 	size_t malloc_size = 500;
 	for (i = 0; i < NUM_STRINGS; i++) {
-		word[i] = calloc(malloc_size , sizeof(char)); 
+		numbers[i] = malloc(malloc_size * sizeof(char)); 
 		fgets(numbers[i], malloc_size, input); 
 		if (numbers[i][0] == '\n' || numbers[i][0] == 0)
 			break;
