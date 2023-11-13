@@ -155,7 +155,7 @@ int main (int argc, const char *argv[]){
     else 
     {
     	char tempstring[128];
-	sprintf(tempstring, "%s.cs4280", argv[1]);
+	sprintf(tempstring, "%s.f23", argv[1]);
         FILE *file = fopen( tempstring, "r" );
 
         if ( file == 0 )
